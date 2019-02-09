@@ -1,13 +1,12 @@
-##include "Super_Int.h"
+#include "Super_Int.h"
 
 using namespace std;
 
-int main()
+int main(int argc, char* argv[])
 {
- Super_Int A(12), B(12),C;
-
- C=A+B;
-
+Super_int C();
+int i=12;
+C=i;
 cout<<C<<endl;
 
 return 0;

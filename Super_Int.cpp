@@ -11,6 +11,8 @@ Super_int::Super_int()
     signe=true;
 }
 
+
+
 Super_int::Super_int(int chifre)
 {
     int i;
@@ -63,7 +65,7 @@ Super_int& Super_int::operator= (int chifre)
     return *this;
 }
 
-Super_int&  Super_int::operator= (Super_int const& b)
+Super_int& Super_int::operator= (Super_int const& b)
 {
     int i;
     Number.clear();

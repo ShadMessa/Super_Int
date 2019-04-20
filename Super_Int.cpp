@@ -2,230 +2,229 @@
 
 using namespace std;
 
-static int power(int num,int pow);
+static int power(int num, int pow);
 static int int_lenght(int n);
 
 Super_int::Super_int()
 {
     Number.push_back(0);
-    signe=true;
+    signe = true;
 }
-
-
 
 Super_int::Super_int(int chifre)
 {
     int i;
-    if (chifre<0)
+    if (chifre < 0)
     {
-        signe=false;
-        chifre*=-1;
+        signe = false;
+        chifre *= -1;
     }
     else
-        signe=true;
+        signe = true;
     Number.clear();
-    for(i=0; i<=int_lenght(chifre)-1; i++)
+    for (i = 0; i <= int_lenght(chifre) - 1; i++)
     {
-        Number.push_back((chifre%power(10,i+1)-chifre%power(10,i))/power(10,i));
+        Number.push_back((chifre % power(10, i + 1) - chifre % power(10, i)) / power(10, i));
     }
 }
 
 Super_int::~Super_int()
 {
-// there is nothing to do in here none dynamic allocation have been made
+    // there is nothing to do in here none dynamic allocation have been made
 }
 
-ostream& operator<< (ostream &flux,Super_int & a)
+ostream &operator<<(ostream &flux, Super_int &a)
 {
-    int i=0;
-    if(a.Get_Signe()==false)
+    int i = 0;
+    if (a.Get_Signe() == false)
     {
-        flux<<"-";
+        flux << "-";
     }
-    for(i=a.Size_l()-1; i>=0; i--)
+    for (i = a.Size_l() - 1; i >= 0; i--)
     {
-        flux<<a.Get_Value(i);
+        flux << a.Get_Value(i);
     }
     return flux;
 }
 
-Super_int& Super_int::operator= (int chifre)
+Super_int &Super_int::operator=(int chifre)
 {
     int i;
-    if (chifre<0)
+    if (chifre < 0)
     {
-        signe=false;
-        chifre*=-1;
+        signe = false;
+        chifre *= -1;
     }
     Number.clear();
-    for(i=0; i<=int_lenght(chifre)-1; i++)
+    for (i = 0; i <= int_lenght(chifre) - 1; i++)
     {
-        Number.push_back((chifre%power(10,i+1)-chifre%power(10,i))/power(10,i));
+        Number.push_back((chifre % power(10, i + 1) - chifre % power(10, i)) / power(10, i));
     }
     return *this;
 }
 
-Super_int& Super_int::operator= (Super_int const& b)
+Super_int &Super_int::operator=(Super_int const &b)
 {
     int i;
     Number.clear();
-    for(i=0; i<=b.Number.size()-1; i++)
+    for (i = 0; i <= b.Number.size() - 1; i++)
     {
         Number.push_back(b.Number[i]);
     }
     return *this;
 }
 
-bool operator== (Super_int & b,Super_int & a)
+bool operator==(Super_int &b, Super_int &a)
 {
-    int unsigned i=0;
-    bool tf=0;
+    int unsigned i = 0;
+    bool tf = 0;
 
-    if(a.Size_l() == b.Size_l())
+    if (a.Size_l() == b.Size_l())
     {
-        for(i=0; i<=a.Size_l()-1; i++)
+        for (i = 0; i <= a.Size_l() - 1; i++)
         {
-            if( b.Get_Value(i) != a.Get_Value(i) )
+            if (b.Get_Value(i) != a.Get_Value(i))
             {
                 goto dif_end;
             }
         }
-        tf=1;
+        tf = 1;
     }
 dif_end:
     return tf;
 }
 
-bool operator== (Super_int & b,int chifre)
+bool operator==(Super_int &b, int chifre)
 {
-    int unsigned i=0,n;
-    bool tf=0;
-    if(b.Size_l() == int_lenght(chifre))
+    int unsigned i = 0, n;
+    bool tf = 0;
+    if (b.Size_l() == int_lenght(chifre))
     {
-        for(i=0; i<=b.Size_l()-1; i++)
+        for (i = 0; i <= b.Size_l() - 1; i++)
         {
-            if(i==0)n=chifre%10;
-            else n=(chifre%power(10,i+1)-chifre%power(10,i))/power(10,i);
-            if( b.Get_Value(i)!= n ) goto dif_end;
+            if (i == 0)
+                n = chifre % 10;
+            else
+                n = (chifre % power(10, i + 1) - chifre % power(10, i)) / power(10, i);
+            if (b.Get_Value(i) != n)
+                goto dif_end;
         }
-        tf=1;
+        tf = 1;
     }
 dif_end:
     return tf;
 }
 
-bool operator!= (Super_int & b,Super_int & a)
+bool operator!=(Super_int &b, Super_int &a)
 {
-    int unsigned i=0;
-    bool tf=1;
-    if(a.Size_l() == b.Size_l())
+    int unsigned i = 0;
+    bool tf = 1;
+    if (a.Size_l() == b.Size_l())
     {
-        for(i=0; i<a.Size_l()-1; i++)
+        for (i = 0; i < a.Size_l() - 1; i++)
         {
-            if( b.Get_Value(i) != a.Get_Value(i) )
+            if (b.Get_Value(i) != a.Get_Value(i))
             {
                 goto dif_end;
             }
         }
-        tf=0;
+        tf = 0;
     }
 dif_end:
     return tf;
 }
 
-bool operator!= (Super_int & b,int chifre)
+bool operator!=(Super_int &b, int chifre)
 {
-    Super_int C=chifre;
-    return b!=C;
+    Super_int C = chifre;
+    return b != C;
 }
 
-bool operator< (Super_int & b,Super_int & a)
+bool operator<(Super_int &b, Super_int &a)
 {
     int i;
-    bool tf=0;
-    if(a==b)
+    bool tf = 0;
+    if (a == b)
     {
         return false;
     }
-    if(a.Size_l() > b.Size_l())
+    if (a.Size_l() > b.Size_l())
     {
         return true;
     }
-    if(a.Size_l() < b.Size_l())
+    if (a.Size_l() < b.Size_l())
     {
         return false;
     }
-    if(a.Size_l() == b.Size_l())
+    if (a.Size_l() == b.Size_l())
     {
-        for(i=a.Size_l()-1; i>=0; i--)
+        for (i = a.Size_l() - 1; i >= 0; i--)
         {
-            if( b.Get_Value(i) > a.Get_Value(i) )
+            if (b.Get_Value(i) > a.Get_Value(i))
             {
                 goto dif_end;
             }
             else if (b.Get_Value(i) < a.Get_Value(i))
             {
-                tf=1;
+                tf = 1;
                 goto dif_end;
             }
         }
-
     }
 dif_end:
     return tf;
 }
 
-bool operator< (Super_int & b,int chifre)
+bool operator<(Super_int &b, int chifre)
 {
-    Super_int C=chifre;
-    return b<C;
+    Super_int C = chifre;
+    return b < C;
 }
 
-bool operator> (Super_int & b,Super_int & a)
+bool operator>(Super_int &b, Super_int &a)
 {
     int i;
-    bool tf=0;
-    if(a==b)
+    bool tf = 0;
+    if (a == b)
     {
         return false;
     }
-    if(a.Size_l() < b.Size_l())
+    if (a.Size_l() < b.Size_l())
     {
         return true;
     }
-    if(a.Size_l() > b.Size_l())
+    if (a.Size_l() > b.Size_l())
     {
         return false;
     }
-    if(a.Size_l() == b.Size_l())
+    if (a.Size_l() == b.Size_l())
     {
-        for(i=a.Size_l()-1; i>=0; i--)
+        for (i = a.Size_l() - 1; i >= 0; i--)
         {
-            if( b.Get_Value(i) < a.Get_Value(i) )
+            if (b.Get_Value(i) < a.Get_Value(i))
             {
                 goto dif_end;
             }
             else if (b.Get_Value(i) > a.Get_Value(i))
             {
-                tf=1;
+                tf = 1;
                 goto dif_end;
             }
         }
-
     }
 dif_end:
     return tf;
 }
 
-bool operator> (Super_int & b,int chifre)
+bool operator>(Super_int &b, int chifre)
 {
-    Super_int C=chifre;
-    return b>C;
+    Super_int C = chifre;
+    return b > C;
 }
 
-bool operator>= (Super_int & b,Super_int & a)
+bool operator>=(Super_int &b, Super_int &a)
 {
-    if((a==b)|(b>a))
+    if ((a == b) | (b > a))
     {
         return true;
     }
@@ -235,15 +234,15 @@ bool operator>= (Super_int & b,Super_int & a)
     }
 }
 
-bool operator>= (Super_int & b,int chifre)
+bool operator>=(Super_int &b, int chifre)
 {
-    Super_int C=chifre;
-    return b>=C;
+    Super_int C = chifre;
+    return b >= C;
 }
 
-bool operator<= (Super_int & b,Super_int & a)
+bool operator<=(Super_int &b, Super_int &a)
 {
-    if((a==b)|(b<a))
+    if ((a == b) | (b < a))
     {
         return true;
     }
@@ -253,202 +252,191 @@ bool operator<= (Super_int & b,Super_int & a)
     }
 }
 
-bool operator<= (Super_int & b,int chifre)
+bool operator<=(Super_int &b, int chifre)
 {
-    Super_int C=chifre;
-    return b<=C;
+    Super_int C = chifre;
+    return b <= C;
 }
 
-Super_int operator+ (Super_int const& a,int chifre)
+Super_int operator+(Super_int const &a, int chifre)
 {
-    Super_int temp=a;
-    temp+=chifre;
+    Super_int temp = a;
+    temp += chifre;
     return temp;
 }
 
-Super_int operator+ (Super_int const& a,Super_int const& b)
+Super_int operator+(Super_int const &a, Super_int const &b)
 {
-    Super_int temp=a;
-    temp+=b;
+    Super_int temp = a;
+    temp += b;
     return temp;
 }
 
-Super_int  operator* (Super_int const& a,Super_int const& b)
+Super_int operator*(Super_int const &a, Super_int const &b)
 {
-    Super_int temp=a,B=b,i;
-    for(i=1; i<B; i+=1)
+    Super_int temp = a, B = b, i;
+    for (i = 1; i < B; i += 1)
     {
-        temp+=a;
+        temp += a;
     }
     return temp;
-
 }
 
-Super_int  operator* (Super_int const& a,int chifre) // i used an exception for a negative int chifre because a Super int is always positive for now
+Super_int operator*(Super_int const &a, int chifre) // i used an exception for a negative int chifre because a Super int is always positive for now
 {
     Super_int temp(0);
-    int i=0;
+    int i = 0;
     try
     {
-        if(chifre==0)
+        if (chifre == 0)
         {
             return temp;
         }
-        else if(chifre>0)
+        else if (chifre > 0)
         {
-            for(i=1; i<=chifre; i++)
+            for (i = 1; i <= chifre; i++)
             {
-                temp+=a;
-
+                temp += a;
             }
         }
-        else throw string(" Wrong multiplication Param ! \n");
+        else
+            throw string(" Wrong multiplication Param ! \n");
     }
-    catch( string &Error)
+    catch (string &Error)
     {
-        cerr<<Error;
+        cerr << Error;
     }
     return temp;
-
 }
 
-Super_int& Super_int::operator+=(int chifre)
+Super_int &Super_int::operator+=(int chifre)
 {
-    int i=0,j,temp;
-    if (chifre<0)
+    int i = 0, j, temp;
+    if (chifre < 0)
     {
         this->operator-=(chifre);
     }
-    if(Number.size()<int_lenght(chifre))
+    if (Number.size() < int_lenght(chifre))
     {
-        temp=int_lenght(chifre)-Number.size();
-        for(i=1; i<=temp; i++)
+        temp = int_lenght(chifre) - Number.size();
+        for (i = 1; i <= temp; i++)
         {
             Number.push_back(0);
         }
     }
-    if(Number.size()==int_lenght(chifre))
+    if (Number.size() == int_lenght(chifre))
     {
-        if((Number[Number.size()-1]+(chifre-chifre%power(10,int_lenght(chifre)-1))/power(10,int_lenght(chifre)-1))>=10)
+        if ((Number[Number.size() - 1] + (chifre - chifre % power(10, int_lenght(chifre) - 1)) / power(10, int_lenght(chifre) - 1)) >= 10)
         {
             Number.push_back(0);
         }
     }
-    for(i=0; i<=int_lenght(chifre)-1; i++)
+    for (i = 0; i <= int_lenght(chifre) - 1; i++)
     {
 
-        temp=(chifre%power(10,i+1)-chifre%power(10,i))/power(10,i);
-        Number[i]+=temp;
-        j=i;
-        while (Number[j]>=10)
+        temp = (chifre % power(10, i + 1) - chifre % power(10, i)) / power(10, i);
+        Number[i] += temp;
+        j = i;
+        while (Number[j] >= 10)
         {
-            if(j+1>=Number.size())
+            if (j + 1 >= Number.size())
             {
-                Number.push_back((Number[j]-Number[j]%10)/10);
+                Number.push_back((Number[j] - Number[j] % 10) / 10);
             }
             else
             {
-                Number[j+1]+=(Number[j]-Number[j]%10)/10;
+                Number[j + 1] += (Number[j] - Number[j] % 10) / 10;
             }
-            Number[j]=Number[j]%10;
+            Number[j] = Number[j] % 10;
             j++;
         }
     }
     return *this;
 }
 
-Super_int& Super_int::operator-=(unsigned int chifre) //\todo c'est pas encore fini il reste beaucoup de chose a faire et a verifier
+Super_int &Super_int::operator-=(unsigned int chifre) // not done yet a lot of stuff need to be done.
 {
-    int i=0,j,temp;
+    int i = 0, j, temp;
 
-    if(Number.size()>int_lenght(chifre)) // ilfuat ecrire une condition special pour l'egaliter
+    if (Number.size() > int_lenght(chifre)) // ilfuat ecrire une condition special pour l'egaliter
     {
 
-        for(i=0; i<=int_lenght(chifre)-1; i++)
+        for (i = 0; i <= int_lenght(chifre); i++)
         {
-            temp=(chifre%power(10,i+1)-chifre%power(10,i))/power(10,i);
-            Number[i]-=temp;
-            if(Number[i]<0)
+            temp = (chifre % power(10, int_lenght(chifre) - i) - chifre % power(10, int_lenght(chifre-i-1))) / power(10, int_lenght(chifre)); // ont working
+            Number[i] -= temp;
+            if (Number[i] < 0)
             {
-                j=i+1;
-                Number[i]+=10;
+                j = i + 1;
+                Number[i] += 10;
                 Number[j]--;
-                while(Number[j]<0 && j<=int_lenght(chifre))   // c'est une boucle dangereuse et si le j depasse le nombre de noeud acces a des donne non autoriser
+                while (Number[j] < 0 && j <= int_lenght(chifre)) // c'est une boucle dangereuse et si le j depasse le nombre de noeud acces a des donne non autoriser
                 {
-                    Number[j]+=10;
-                    Number[j+1]--;
+                    Number[j] += 10;
+                    Number[j + 1]--;
                     j++;
                 }
             }
         }
-
     }
-    else if(Number.size()<int_lenght(chifre))
+    else if (Number.size() < int_lenght(chifre))
     {
-
-
-
-
     }
     else
     {
-
-
-
     }
 
-
-    i=Number.size()-1;
-    while(Number[i]==0)
+    i = Number.size() - 1;
+    while (Number[i] == 0)
     {
         Number.pop_back();
         i--;
     }
-    if(Number.size()==0)
+    if (Number.size() == 0)
     {
         Number.push_back(0);
     }
     return *this;
 }
 
-Super_int& Super_int::operator+=(Super_int const& a)
+Super_int &Super_int::operator+=(Super_int const &a)
 {
-    int i=0,j=0;
+    int i = 0, j = 0;
 
-    if(Number.size()<a.Number.size())
+    if (Number.size() < a.Number.size())
     {
-        j=a.Number.size()-Number.size();
-        for(i=1; i<=j; i++)
+        j = a.Number.size() - Number.size();
+        for (i = 1; i <= j; i++)
         {
             Number.push_back(0);
         }
     }
-    if(Number.size()==a.Number.size())
+    if (Number.size() == a.Number.size())
     {
-        if(Number[Number.size()-1]+a.Number[a.Number.size()-1]>9)
+        if (Number[Number.size() - 1] + a.Number[a.Number.size() - 1] > 9)
         {
             Number.push_back(0);
         }
     }
 
-    for(i=0; i<=a.Number.size()-1; i++)
+    for (i = 0; i <= a.Number.size() - 1; i++)
     {
 
-        Number[i]+=a.Number[i];
-        if(i!=Number.size()-1)
+        Number[i] += a.Number[i];
+        if (i != Number.size() - 1)
         {
-            if(Number[i]>9)
+            if (Number[i] > 9)
             {
-                Number[i+1]+=(Number[i]-Number[i]%10)/10;
-                Number[i]=Number[i]%10;
+                Number[i + 1] += (Number[i] - Number[i] % 10) / 10;
+                Number[i] = Number[i] % 10;
             }
         }
         else
         {
-            if(Number[i]>9)
+            if (Number[i] > 9)
             {
-                Number.push_back((Number[i]-Number[i]%10)/10);
-                Number[i]=Number[i]%10;
+                Number.push_back((Number[i] - Number[i] % 10) / 10);
+                Number[i] = Number[i] % 10;
             }
         }
     }
@@ -469,7 +457,7 @@ int Super_int::Get_Value(unsigned int i)
 {
     try
     {
-        if(i>Number.size()+1)
+        if (i > Number.size() + 1)
         {
             throw string("Index Error");
         }
@@ -478,40 +466,40 @@ int Super_int::Get_Value(unsigned int i)
             return Number[i];
         }
     }
-    catch(string const& Error)
+    catch (string const &Error)
     {
-        cerr<<" "<<Error<<endl;
+        cerr << " " << Error << endl;
     }
 }
 
-void Super_int::Set_Value(int i,int c)
+void Super_int::Set_Value(int i, int c)
 {
     try
     {
-        if(i<0)
+        if (i < 0)
         {
             throw string("Index Error");
         }
-        else if(i>Number.size()+1)
+        else if (i > Number.size() + 1)
         {
             throw string("Index Error");
         }
-        else if(c<0)
+        else if (c < 0)
         {
             throw string("Value Error : SV1");
         }
-        else if(c>=10)
+        else if (c >= 10)
         {
             throw string("Value Error : SV2");
         }
         else
         {
-            Number[i]=c;
+            Number[i] = c;
         }
     }
-    catch(string const& Error)
+    catch (string const &Error)
     {
-        cerr<<" "<<Error<<endl;
+        cerr << " " << Error << endl;
     }
 }
 
@@ -520,47 +508,48 @@ void Super_int::Push_Value(int c)
     try
     {
 
-        if(c<0)
+        if (c < 0)
         {
             throw string("Value Error : PV");
         }
         Number.push_back(c);
     }
-    catch(string const& Error)
+    catch (string const &Error)
     {
-        cerr<<" "<<Error<<endl;
+        cerr << " " << Error << endl;
     }
-
 }
 
-bool Super_int::Is_it_perfect() //\todo it does not work make it do the job
+bool Super_int::Is_it_perfect() // it does not work make it do the job
 {
     int i(0);
-    Super_int cptn1(0),cptn2(0);
+    Super_int cptn1(0), cptn2(0);
 
-    for(i=0; i<=Number.size()-1; i++)
+    for (i = 0; i <= Number.size() - 1; i++)
     {
-        cptn1+=Number[i];
+        cptn1 += Number[i];
     }
-    while(cptn1.Size_l()>1)
+    while (cptn1.Size_l() > 1)
     {
-        for(i=0; i<=cptn1.Size_l()-1; i++)
+        for (i = 0; i <= cptn1.Size_l() - 1; i++)
         {
-            cptn2+=cptn1.Get_Value(i);
+            cptn2 += cptn1.Get_Value(i);
         }
-        cptn1=cptn2;
-        cptn2=0;
+        cptn1 = cptn2;
+        cptn2 = 0;
     }
-    if(cptn1==1) return true;
-    else return false;
+    if (cptn1 == 1)
+        return true;
+    else
+        return false;
 }
 
-static int power(int num,int pow)
+static int power(int num, int pow)
 {
-    int i=0,P=1;
-    for(i=1; i<=pow; i++)
+    int i = 0, P = 1;
+    for (i = 1; i <= pow; i++)
     {
-        P=P*num;
+        P = P * num;
     }
     return P;
 }
@@ -568,10 +557,10 @@ static int power(int num,int pow)
 static int int_lenght(int n)
 {
     int cptn(0);
-    while(n / 10 > 0)
+    while (n / 10 > 0)
     {
-        n=n/10;
+        n = n / 10;
         cptn++;
     }
-    return cptn +1;
+    return cptn + 1;
 }

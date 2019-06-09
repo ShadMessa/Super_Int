@@ -2,7 +2,7 @@
 
 using namespace std;
 
-static int power(int num,unsigned int pow);
+static int power(int num, unsigned int pow);
 static int int_lenght(int n);
 
 Super_int::Super_int()
@@ -12,7 +12,7 @@ Super_int::Super_int()
 }
 
 Super_int::Super_int(int chifre)
-{ 
+{
     int i;
     if (chifre < 0)
     {
@@ -331,7 +331,8 @@ Super_int &Super_int::operator+=(int chifre)
             Number.push_back(0);
         }
     }
-    for (i = 0; i <= int_lenght(chifre) - 1; i++)
+    int in =int_lenght(chifre);
+    for (i = 0; i <= in - 1; i++)
     {
 
         temp = (chifre % power(10, i + 1) - chifre % power(10, i)) / power(10, i);
@@ -356,21 +357,27 @@ Super_int &Super_int::operator+=(int chifre)
 
 Super_int &Super_int::operator-=(unsigned int chifre) // not done yet a lot of stuff need to be done.
 {
-    int i = 0, j, temp;
+    int i = 0, j = 0, temp = 0;
+    int in = int_lenght(chifre);
 
-    if (Number.size() > int_lenght(chifre)) // ilfuat ecrire une condition special pour l'egaliter
+     if (Number.size() < in)
     {
-
-        for (i = 0; i <= int_lenght(chifre); i++)
+        for (i = 0; i <= in - Number.size() ; i++)
         {
-            temp = ((chifre % power(10, int_lenght(chifre)-i)) - chifre % power(10, int_lenght(chifre)-i-1))/ power(10, int_lenght(chifre)-i-1);
+            Number.push_back(0);
+        }
+    }   
+
+        for (i = 0; i <= in; i++)
+        {
+            temp = ((chifre % power(10, in - i)) - chifre % power(10, in - i - 1)) / power(10, in - i - 1);
             Number[i] -= temp;
             if (Number[i] < 0)
             {
                 j = i + 1;
                 Number[i] += 10;
                 Number[j]--;
-                while (Number[j] < 0 && j <= int_lenght(chifre)) // c'est une boucle dangereuse et si le j depasse le nombre de noeud acces a des donne non autoriser
+                while (Number[j] < 0 && j <= in) // c'est une boucle dangereuse et si le j depasse le nombre de noeud acces a des donne non autoriser
                 {
                     Number[j] += 10;
                     Number[j + 1]--;
@@ -378,13 +385,6 @@ Super_int &Super_int::operator-=(unsigned int chifre) // not done yet a lot of s
                 }
             }
         }
-    }
-    else if (Number.size() < int_lenght(chifre))
-    {
-
-
-        
-    }
     
     i = Number.size() - 1;
     while (Number[i] == 0)
@@ -392,10 +392,7 @@ Super_int &Super_int::operator-=(unsigned int chifre) // not done yet a lot of s
         Number.pop_back();
         i--;
     }
-    if (Number.size() == 0)
-    {
-        Number.push_back(0);
-    }
+
     return *this;
 }
 
@@ -544,7 +541,7 @@ bool Super_int::Is_it_perfect() // it does not work make it do the job
         return false;
 }
 
-static int power(int num,unsigned int pow)
+static int power(int num, unsigned int pow)
 {
     unsigned int i;
     int P = 1;

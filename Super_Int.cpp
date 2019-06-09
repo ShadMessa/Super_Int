@@ -2,7 +2,7 @@
 
 using namespace std;
 
-static int power(int num, int pow);
+static int power(int num,unsigned int pow);
 static int int_lenght(int n);
 
 Super_int::Super_int()
@@ -12,7 +12,7 @@ Super_int::Super_int()
 }
 
 Super_int::Super_int(int chifre)
-{
+{ 
     int i;
     if (chifre < 0)
     {
@@ -363,7 +363,7 @@ Super_int &Super_int::operator-=(unsigned int chifre) // not done yet a lot of s
 
         for (i = 0; i <= int_lenght(chifre); i++)
         {
-            temp = (chifre % power(10, int_lenght(chifre) - i) - chifre % power(10, int_lenght(chifre-i-1))) / power(10, int_lenght(chifre)); // ont working
+            temp = ((chifre % power(10, int_lenght(chifre)-i)) - chifre % power(10, int_lenght(chifre)-i-1))/ power(10, int_lenght(chifre)-i-1);
             Number[i] -= temp;
             if (Number[i] < 0)
             {
@@ -381,11 +381,11 @@ Super_int &Super_int::operator-=(unsigned int chifre) // not done yet a lot of s
     }
     else if (Number.size() < int_lenght(chifre))
     {
-    }
-    else
-    {
-    }
 
+
+        
+    }
+    
     i = Number.size() - 1;
     while (Number[i] == 0)
     {
@@ -544,9 +544,10 @@ bool Super_int::Is_it_perfect() // it does not work make it do the job
         return false;
 }
 
-static int power(int num, int pow)
+static int power(int num,unsigned int pow)
 {
-    int i = 0, P = 1;
+    unsigned int i;
+    int P = 1;
     for (i = 1; i <= pow; i++)
     {
         P = P * num;

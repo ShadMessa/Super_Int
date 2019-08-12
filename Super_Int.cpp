@@ -331,11 +331,11 @@ Super_int &Super_int::operator+=(int chifre)
             Number.push_back(0);
         }
     }
-    int in =int_lenght(chifre);
+    int in = int_lenght(chifre);
     for (i = 0; i <= in - 1; i++)
     {
 
-        temp = (chifre % power(10, i + 1) - chifre % power(10, i)) / power(10, i);
+        temp = (chifre % power(10, i + 1) - chifre % power(10, i)) / power(10, i); // this equation give every digit of a number from MSD to LSD
         Number[i] += temp;
         j = i;
         while (Number[j] >= 10)
@@ -358,41 +358,42 @@ Super_int &Super_int::operator+=(int chifre)
 Super_int &Super_int::operator-=(unsigned int chifre) // not done yet a lot of stuff need to be done.
 {
     int i = 0, j = 0, temp = 0;
-    int in = int_lenght(chifre);
+    int int_l = int_lenght(chifre);
 
-     if (Number.size() < in)
+    if (Number.size() < int_l)
     {
-        for (i = 0; i <= in - Number.size() ; i++)
+        for (i = 0; i <= int_l - Number.size(); i++)
         {
             Number.push_back(0);
         }
-    }   
+    }
 
-        for (i = 0; i <= in; i++)
+    for (i = 0; i < int_l; i++)
+    {
+        temp = ((chifre % power(10, i+1) - chifre % power(10, i)) / power(10, i)); // this equation give every digit of a number from LSD to MSD
+        Number[i] -= temp;
+        if (Number[i] < 0)
         {
-            temp = ((chifre % power(10, in - i)) - chifre % power(10, in - i - 1)) / power(10, in - i - 1);
-            Number[i] -= temp;
-            if (Number[i] < 0)
+            j = i + 1;
+            Number[i] += 10;
+            Number[j]--;
+            while (Number[j] < 0 && j <= int_l)
             {
-                j = i + 1;
-                Number[i] += 10;
-                Number[j]--;
-                while (Number[j] < 0 && j <= in) // c'est une boucle dangereuse et si le j depasse le nombre de noeud acces a des donne non autoriser
-                {
-                    Number[j] += 10;
-                    Number[j + 1]--;
-                    j++;
-                }
+                Number[j] += 10;
+                Number[j + 1]--;
+                j++;
             }
         }
-    
+    }
+
     i = Number.size() - 1;
     while (Number[i] == 0)
     {
         Number.pop_back();
         i--;
     }
-
+    if(Number.empty()==1) {cout<<"Is size "<<Number.size()<<" Is empty 1!"<<endl;}
+    if(Number.empty()==0) {cout<<"Is size "<<Number.size()<<" Is empty 0!"<<endl;}
     return *this;
 }
 

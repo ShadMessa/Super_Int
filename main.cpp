@@ -4,10 +4,12 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
-    Super_int C;
-    Super_int i = 1284562;
-    C = i;
-    C-=6;
-    cout << C;
+    Super_int C=4562;
+    int i = 4561;
+    Super_int Result;
+    Result=C;
+    Result-=i;
+   
+    cout<< C <<" - "<<i<<" = "<<Result<< endl;
     return 0;
 }

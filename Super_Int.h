@@ -24,7 +24,7 @@ public:
 private:
     void Set_Value(int i,int c);
     void Push_Value(int c);
-    std::vector<int> Number;
+    std::vector<int> Number; // Note to self Remember that the digits are stored from Less Significant Digit (LSD) to Most Significant Digit (MSD)
     bool signe;// false -> negative
 };
 

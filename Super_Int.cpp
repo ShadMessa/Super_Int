@@ -391,6 +391,7 @@ Super_int &Super_int::operator-=(unsigned int chifre) // not done yet a lot of s
     {
         Number.pop_back();
         i--;
+        if (i==0){break;}
     }
     if(Number.empty()==1) {cout<<"Is size "<<Number.size()<<" Is empty 1!"<<endl;}
     if(Number.empty()==0) {cout<<"Is size "<<Number.size()<<" Is empty 0!"<<endl;}

@@ -33,7 +33,7 @@ Super_int::~Super_int()
     // there is nothing to do in here none dynamic allocation have been made
 }
 
-ostream &operator<<(ostream &flux, Super_int &a)
+ostream &operator<<(ostream &flux,Super_int &a)
 {
     int i = 0;
     if (a.Get_Signe() == false)
@@ -258,7 +258,7 @@ bool operator<=(Super_int &b, int chifre)
     return b <= C;
 }
 
-Super_int operator+(Super_int const &a, int chifre)
+Super_int operator+(Super_int &a, int chifre) 
 {
     Super_int temp = a;
     temp += chifre;
@@ -311,11 +311,15 @@ Super_int operator*(Super_int const &a, int chifre) // i used an exception for a
 
 Super_int &Super_int::operator+=(int chifre)
 {
-    int i = 0, j, temp;
-    if (chifre < 0)
+    
+    if (chifre < 0) // If the input is negative then we substact it from the operand
     {
-        this->operator-=(chifre);
+        chifre=chifre*(-1);
+        return *this-=chifre;
     }
+
+
+    int i = 0, j, temp;
     if (Number.size() < int_lenght(chifre))
     {
         temp = int_lenght(chifre) - Number.size();
@@ -355,8 +359,10 @@ Super_int &Super_int::operator+=(int chifre)
     return *this;
 }
 
-Super_int &Super_int::operator-=(unsigned int chifre) // not done yet a lot of stuff need to be done.
+Super_int &Super_int::operator-=(int chifre) // not done yet a lot of stuff need to be done.
 {
+    if(chifre<0) {chifre=chifre*(-1); return *this+=chifre;} // If the input is negative then -x-=+
+
     int i = 0, j = 0, temp = 0;
     int int_l = int_lenght(chifre);
 

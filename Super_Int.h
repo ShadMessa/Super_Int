@@ -14,7 +14,7 @@ public:
     Super_int&  operator=  (int chifre);
     Super_int&  operator+= (int chifre);
     Super_int&  operator+= (Super_int const& a);
-    Super_int&  operator-= (unsigned int chifre);
+    Super_int&  operator-= (int chifre);
     Super_int&  operator-= (Super_int const& a);
     /***********Methods**********/
     int Size_l();

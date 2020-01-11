@@ -15,7 +15,7 @@ public:
     Super_int&  operator+= (int chifre);
     Super_int&  operator+= (Super_int const& a);
     Super_int&  operator-= (int chifre);
-    Super_int&  operator-= (Super_int const& a);
+    Super_int&  operator-= (Super_int & a);
     /***********Methods**********/
     int Size_l();
     int Get_Value(unsigned int i);
@@ -32,8 +32,9 @@ private:
 Super_int  operator* (Super_int const& a,Super_int const& b);
 Super_int  operator* (Super_int & a,int chifre);
 //Super_int  operator/ (Super_int &a,Super_int &b);
-//Super_int  operator- (Super_int &a,Super_int &b);
-Super_int  operator+ (Super_int const& a,Super_int const& b);
+Super_int  operator- (Super_int const&a,Super_int &b);
+Super_int  operator- (Super_int &a,int chifre);
+Super_int  operator+ (Super_int const& a,Super_int & b);
 Super_int  operator+ (Super_int & a,int chifre);
 
 ////////////////// Comparative operators  ///////////////////////

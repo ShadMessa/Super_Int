@@ -272,6 +272,20 @@ Super_int operator+(Super_int const &a, Super_int const &b)
     return temp;
 }
 
+Super_int operator-(Super_int &a, int chifre) 
+{
+    Super_int temp = a;
+    temp -= chifre;
+    return temp;
+}
+
+Super_int operator+(Super_int const &a, Super_int const &b)
+{
+    Super_int temp = a;
+    temp -= b;
+    return temp;
+}
+
 Super_int operator*(Super_int const &a, Super_int const &b)
 {
     Super_int temp = a, B = b, i;
@@ -359,7 +373,51 @@ Super_int &Super_int::operator+=(int chifre)
     return *this;
 }
 
-Super_int &Super_int::operator-=(int chifre) // not done yet a lot of stuff need to be done.
+Super_int &Super_int::operator+=(Super_int const &a)
+{
+    int i = 0, j = 0;
+
+    if (Number.size() < a.Number.size())
+    {
+        j = a.Number.size() - Number.size();
+        for (i = 1; i <= j; i++)
+        {
+            Number.push_back(0);
+        }
+    }
+    if (Number.size() == a.Number.size())
+    {
+        if (Number[Number.size() - 1] + a.Number[a.Number.size() - 1] > 9)
+        {
+            Number.push_back(0);
+        }
+    }
+
+    for (i = 0; i <= a.Number.size() - 1; i++)
+    {
+
+        Number[i] += a.Number[i];
+        if (i != Number.size() - 1)
+        {
+            if (Number[i] > 9)
+            {
+                Number[i + 1] += (Number[i] - Number[i] % 10) / 10;
+                Number[i] = Number[i] % 10;
+            }
+        }
+        else
+        {
+            if (Number[i] > 9)
+            {
+                Number.push_back((Number[i] - Number[i] % 10) / 10);
+                Number[i] = Number[i] % 10;
+            }
+        }
+    }
+    return *this;
+}
+
+Super_int &Super_int::operator-=(int chifre)
 {
     if(chifre<0) {chifre=chifre*(-1); return *this+=chifre;} // If the input is negative then -x-=+
 
@@ -402,18 +460,18 @@ Super_int &Super_int::operator-=(int chifre) // not done yet a lot of stuff need
     return *this;
 }
 
-Super_int &Super_int::operator+=(Super_int const &a)
+Super_int &Super_int::operator-=(Super_int const &a) // not done yet a lot of stuff need to be done.
 {
+    // I'll asume that a is positive for now
+    
     int i = 0, j = 0;
 
     if (Number.size() < a.Number.size())
     {
-        j = a.Number.size() - Number.size();
-        for (i = 1; i <= j; i++)
-        {
-            Number.push_back(0);
-        }
+        signe=false;
+        return a-this;
     }
+    
     if (Number.size() == a.Number.size())
     {
         if (Number[Number.size() - 1] + a.Number[a.Number.size() - 1] > 9)

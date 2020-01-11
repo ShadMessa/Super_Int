@@ -63,7 +63,7 @@ Super_int &Super_int::operator=(int chifre)
     return *this;
 }
 
-Super_int &Super_int::operator=(Super_int const &b)
+Super_int &Super_int::operator=(Super_int &b)
 {
     int i;
     Number.clear();
@@ -265,7 +265,7 @@ Super_int operator+(Super_int &a, int chifre)
     return temp;
 }
 
-Super_int operator+(Super_int const &a, Super_int const &b)
+Super_int operator+(Super_int &a, Super_int &b)
 {
     Super_int temp = a;
     temp += b;
@@ -279,14 +279,14 @@ Super_int operator-(Super_int &a, int chifre)
     return temp;
 }
 
-Super_int operator+(Super_int const &a, Super_int const &b)
+Super_int operator-(Super_int &a, Super_int &b)
 {
     Super_int temp = a;
     temp -= b;
     return temp;
 }
 
-Super_int operator*(Super_int const &a, Super_int const &b)
+Super_int operator*(Super_int &a, Super_int &b)
 {
     Super_int temp = a, B = b, i;
     for (i = 1; i < B; i += 1)
@@ -296,7 +296,7 @@ Super_int operator*(Super_int const &a, Super_int const &b)
     return temp;
 }
 
-Super_int operator*(Super_int const &a, int chifre) // i used an exception for a negative int chifre because a Super int is always positive for now
+Super_int operator*(Super_int &a, int chifre) // i used an exception for a negative int chifre because a Super int is always positive for now
 {
     Super_int temp(0);
     int i = 0;
@@ -328,8 +328,7 @@ Super_int &Super_int::operator+=(int chifre)
     
     if (chifre < 0) // If the input is negative then we substact it from the operand
     {
-        chifre=chifre*(-1);
-        return *this-=chifre;
+        return *this-=chifre*(-1);
     }
 
 
@@ -373,8 +372,13 @@ Super_int &Super_int::operator+=(int chifre)
     return *this;
 }
 
-Super_int &Super_int::operator+=(Super_int const &a)
+Super_int &Super_int::operator+=(Super_int &a)
 {
+     if (a.signe==-1) // If the input is negative then we substact it from the operand
+    {
+        
+        return *this-=a;
+    }
     int i = 0, j = 0;
 
     if (Number.size() < a.Number.size())
@@ -460,7 +464,7 @@ Super_int &Super_int::operator-=(int chifre)
     return *this;
 }
 
-Super_int &Super_int::operator-=(Super_int const &a) // not done yet a lot of stuff need to be done.
+Super_int &Super_int::operator-=(Super_int &a) // not done yet a lot of stuff need to be done.
 {
     // I'll asume that a is positive for now
     
@@ -469,7 +473,7 @@ Super_int &Super_int::operator-=(Super_int const &a) // not done yet a lot of st
     if (Number.size() < a.Number.size())
     {
         signe=false;
-        return a-this;
+        return a-=*this;
     }
     
     if (Number.size() == a.Number.size())
@@ -563,6 +567,21 @@ void Super_int::Set_Value(int i, int c)
         cerr << " " << Error << endl;
     }
 }
+
+ void Super_int::Set_Signe(int s)
+ {
+     try
+     {
+         if(s==-1){signe=-1;}
+         else if(s==1){signe=1;}
+         else {throw string("Wrong param");}
+     }
+     catch(const std::exception& e)
+     {
+         std::cerr << e.what() << '\n';
+     }
+     
+ }
 
 void Super_int::Push_Value(int c)
 {

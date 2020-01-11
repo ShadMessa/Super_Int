@@ -489,11 +489,11 @@ void Super_int::Set_Value(int i, int c)
         }
         else if (c < 0)
         {
-            throw string("Value Error : SV1");
+            throw string("Value Error : Set_V=Too small");
         }
         else if (c >= 10)
         {
-            throw string("Value Error : SV2");
+            throw string("Value Error : Set_V=Too big");
         }
         else
         {

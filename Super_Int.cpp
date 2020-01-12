@@ -8,7 +8,7 @@ static int int_lenght(int n);
 Super_int::Super_int()
 {
     Number.push_back(0);
-    signe = true;
+    signe = 1;
 }
 
 Super_int::Super_int(int chifre)
@@ -16,12 +16,16 @@ Super_int::Super_int(int chifre)
     int i;
     if (chifre < 0)
     {
-        signe = false;
+        signe = -1;
         chifre *= -1;
     }
-    else
-        signe = true;
+    else  
+    {
+        signe = 1;
+    }
+
     Number.clear();
+    
     for (i = 0; i <= int_lenght(chifre) - 1; i++)
     {
         Number.push_back((chifre % power(10, i + 1) - chifre % power(10, i)) / power(10, i));
@@ -36,7 +40,7 @@ Super_int::~Super_int()
 ostream &operator<<(ostream &flux,Super_int &a)
 {
     int i = 0;
-    if (a.Get_Signe() == false)
+    if (a.Get_Signe() == -1)
     {
         flux << "-";
     }
@@ -52,7 +56,7 @@ Super_int &Super_int::operator=(int chifre)
     int i;
     if (chifre < 0)
     {
-        signe = false;
+        signe = -1;
         chifre *= -1;
     }
     Number.clear();
@@ -67,6 +71,7 @@ Super_int &Super_int::operator=(Super_int &b)
 {
     int i;
     Number.clear();
+    signe=b.Get_Signe();
     for (i = 0; i <= b.Number.size() - 1; i++)
     {
         Number.push_back(b.Number[i]);
@@ -78,6 +83,8 @@ bool operator==(Super_int &b, Super_int &a)
 {
     int unsigned i = 0;
     bool tf = 0;
+
+    if(a.Get_Signe()!=b.Get_Signe()){return tf;} // if thier sign is diffrent return 0
 
     if (a.Size_l() == b.Size_l())
     {
@@ -98,7 +105,10 @@ bool operator==(Super_int &b, int chifre)
 {
     int unsigned i = 0, n;
     bool tf = 0;
-    if (b.Size_l() == int_lenght(chifre))
+    
+    if(b.Get_Signe()*chifre<0){return tf;} // if thier sign is diffrent return 0
+    
+    if (b.Size_l() == int_lenght(chifre)) // if thier lengh is equal processed to checking thier values
     {
         for (i = 0; i <= b.Size_l() - 1; i++)
         {
@@ -119,6 +129,9 @@ bool operator!=(Super_int &b, Super_int &a)
 {
     int unsigned i = 0;
     bool tf = 1;
+
+    if(a.Get_Signe()==b.Get_Signe()){return 0;} // if thier sign is diffrent return 0
+
     if (a.Size_l() == b.Size_l())
     {
         for (i = 0; i < a.Size_l() - 1; i++)
@@ -376,9 +389,11 @@ Super_int &Super_int::operator+=(Super_int &a)
 {
      if (a.signe==-1) // If the input is negative then we substact it from the operand
     {
-        
+
         return *this-=a;
+
     }
+
     int i = 0, j = 0;
 
     if (Number.size() < a.Number.size())
@@ -472,27 +487,43 @@ Super_int &Super_int::operator-=(Super_int &a) // not done yet a lot of stuff ne
 
     if (Number.size() < a.Number.size())
     {
-        signe=false;
+        signe=-1;
+        cout << " used expection"<<endl;
         return a-=*this;
+        
     }
     
     if (Number.size() == a.Number.size())
     {
-        if (Number[Number.size() - 1] + a.Number[a.Number.size() - 1] > 9)
+        i=Number.size()-1;
+        while(i>=0)
         {
-            Number.push_back(0);
+             if (Number[i] < a.Number[i])
+             {
+                signe=-1;
+                cout << " used expection just bellow"<<endl;
+                return a-=*this;
+             }
+             else if(Number[i] > a.Number[i])
+             {
+               goto not_equal;
+             }
+        i--;
         }
+        *this=0;
+        return *this;
     }
+ not_equal:
 
-    for (i = 0; i <= a.Number.size() - 1; i++)
+    for (i = a.Number.size() - 1; i>=0 ; i--) // make no sense
     {
 
-        Number[i] += a.Number[i];
-        if (i != Number.size() - 1)
+        Number[i] -= a.Number[i];
+        if (i < 0)
         {
-            if (Number[i] > 9)
+            if (Number[i]*-1 > 9)
             {
-                Number[i + 1] += (Number[i] - Number[i] % 10) / 10;
+                Number[i - 1] += (Number[i] - Number[i] % 10) / 10;
                 Number[i] = Number[i] % 10;
             }
         }
@@ -513,7 +544,7 @@ int Super_int::Size_l()
     return Number.size();
 }
 
-bool Super_int::Get_Signe()
+int Super_int::Get_Signe()
 {
     return signe;
 }

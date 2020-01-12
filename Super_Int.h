@@ -19,7 +19,7 @@ public:
     /***********Methods**********/
     int Size_l();
     int Get_Value(unsigned int i);
-    bool Get_Signe();
+    int Get_Signe();
     bool Is_it_perfect();
 private:
     void Set_Value(int i,int c);

@@ -6,8 +6,9 @@ int main(int argc, char *argv[])
 {
     Super_int C=1162;
     Super_int i = -1163;
+    cout<< i << endl;
     Super_int Result=C+i;
    
-    cout<< C <<" + ("<<i<< ") = " << Result << endl;
+    cout<< C << " + " << i << " = " << Result << endl;
     return 0;
 }

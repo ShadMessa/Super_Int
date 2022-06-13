@@ -389,7 +389,8 @@ Super_int &Super_int::operator+=(Super_int &a)
 {
      if (a.signe==-1) // If the input is negative then we substact it from the operand
     {
-
+    
+        a.Set_Signe(1);
         return *this-=a;
 
     }
@@ -438,7 +439,7 @@ Super_int &Super_int::operator+=(Super_int &a)
 
 Super_int &Super_int::operator-=(int chifre)
 {
-    if(chifre<0) {chifre=chifre*(-1); return *this+=chifre;} // If the input is negative then -x-=+
+    if(chifre<0) {chifre=chifre*(-1); return *this+=chifre;} // If the input is negative then -x *(-1)  ==> +=
 
     int i = 0, j = 0, temp = 0;
     int int_l = int_lenght(chifre);

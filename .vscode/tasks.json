@@ -6,7 +6,7 @@
         {
             "type": "shell",
             "label": "Build this project",
-            "command": "g++ -g -Wall /home/shad/Desktop/Super_Int/main.cpp /home/shad/Desktop/Super_Int/Super_Int.cpp -o ExE",
+            "command": "g++ -g /home/shad/Desktop/Super_Int/main.cpp /home/shad/Desktop/Super_Int/Super_Int.cpp -o ExE",
             "problemMatcher": [
                 "$gcc"
             ],
